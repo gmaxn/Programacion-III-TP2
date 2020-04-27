@@ -5,7 +5,7 @@ require_once __DIR__ . '\controllers\PersonasController.php';
 
 $path_info = $_SERVER['PATH_INFO'] ?? '';
 
-$resource = '/' . explode('/', $path_info)[1] ?? '';
+$resource = '/' . (explode('/', $path_info)[1] ?? '');
 
 switch ($resource) {
 
@@ -19,6 +19,6 @@ switch ($resource) {
     break;
 
     default:
-        echo $resource . 'is not a valid resource';
+        echo $resource . ' is not a valid resource';
     break;
 }
