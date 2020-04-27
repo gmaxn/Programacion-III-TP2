@@ -1,0 +1,10 @@
+{
+    "name": "mguelpa/tp2_apirest_jwt",
+    "authors": [
+        {
+            "name": "Maximiliano Nicolas Guelpa",
+            "email": "mguelpa@gmail.com"
+        }
+    ],
+    "require": {}
+}
