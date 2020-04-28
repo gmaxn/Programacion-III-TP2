@@ -8,30 +8,33 @@ use \Firebase\JWT\JWT;
 
 class Authentication {
 
-    public static function validateCredentials($email, $password) {
+    public static function validateCredentials($email, $password)
+    {
+        $filename = __DIR__ . '\..\data\personas.txt';
+        $persona =  PersonasRepository::findByEmail($filename, $email);
 
-        if($email && $password) {
+        if ($persona) {
 
-            $filename = __DIR__ . '\..\data\personas.txt';
-            $persona =  PersonasRepository::findByEmail($filename, $email);
             $hashedpass = $persona->password;
-    
+
             if (password_verify($password, $hashedpass)) {
 
                 return self::generateToken(
-                    $persona->email, 
-                    $persona->firstname, 
+                    $persona->email,
+                    $persona->firstname,
                     $persona->lastname,
                     $persona->userType,
                     strtotime('now'),
-                    strtotime('now')+30
-                ); 
+                    strtotime('now') +60
+                );
 
             } else {
 
-                echo 'La contraseña no es válida.';
+                throw new Exception('Invalid password');
             }
         }
+
+        throw new Exception('User not found');
     }
 
     private static function generateToken($email, $firstname, $lastname, $userType, $iat, $exp) {
@@ -56,9 +59,10 @@ class Authentication {
             return $decoded;
         }
         catch (\Throwable $th) {
-            $error = new stdClass();
-            $error->errorMessage = $th->getMessage();
-            return $error;
+
+            if($th->getMessage() == 'Malformed UTF-8 characters')
+
+            throw new Exception('Invalid token');
         }
     }
 }

@@ -101,14 +101,22 @@ class PersonasController {
 
         $response = new Response('faltan datos');
 
-        $result = Authentication::validateCredentials($loginDto->email, $loginDto->password);
+        try {
 
-        if($result) {
+            $result = Authentication::validateCredentials($loginDto->email, $loginDto->password);
 
-            $jwt = new stdClass();
-            $jwt->token = $result;
-            $response->status = 'Succeed';
-            $response->data = $jwt;
+            if($result) {
+            
+                $jwt = new stdClass();
+                $jwt->token = $result;
+                $response->status = 'Succeed';
+                $response->data = $jwt;
+            }
+        }
+        catch(Exception $e) {
+
+            $response->status = 'failure';
+            $response->data = $e->getMessage();
         }
 
         $response = json_encode($response);
@@ -120,28 +128,25 @@ class PersonasController {
     function getPersonasDetails($jwt) {
 
         $response = new Response('faltan datos');
-        $userContext = Authentication::authorizedUser($jwt);
+        
+        try {
 
-        if(!isset($userContext->email))
-        {
-            $response->status = 'failure';
-            $response->data = $userContext->errorMessage;
-        }
+            $userContext = Authentication::authorizedUser($jwt);
 
-        if(isset($userContext->email))
-        {
+            if(!isset($userContext->email))
+            {
+                throw new Exception('Email null or empty');
+            }
+
             $persona = Persona::findByEmail($userContext->email);
 
-            if($persona != null)
-            {
-                $response->status = 'Success';
-                $response->data = $persona; 
-            }
-            else
-            {
-                $response->status = 'Success';
-                $response->data = 'Persona not found'; 
-            }
+            $response->status = 'succeed';
+            $response->data = $persona;
+        }
+        catch(Exception $e) {
+            
+            $response->status = 'failure';
+            $response->data = $e->getMessage();
         }
 
         $response = json_encode($response);
@@ -153,23 +158,25 @@ class PersonasController {
     function getPersonasList($jwt) {
 
         $response = new Response('faltan datos');
-        $userContext = Authentication::authorizedUser($jwt);
+        
+        try {
 
-        if(!isset($userContext->user_type))
-        {
-            $response->status = 'failure';
-            $response->data = $userContext->errorMessage;
-        }
+            $userContext = Authentication::authorizedUser($jwt);
 
-        if(isset($userContext->user_type))
-        {
-            $personas = Persona::getDetailsByUserType($userContext->user_type);
-                
-            if($personas != null)
+            if(!isset($userContext->user_type))
             {
-                $response->status = 'Success';
-                $response->data = $personas; 
+                throw new Exception('user_type null or empty');
             }
+
+            $personas = Persona::getDetailsByUserType($userContext->user_type);
+
+            $response->status = 'succeed';
+            $response->data = $personas;
+        }
+        catch(Exception $e) {
+
+            $response->status = 'failure';
+            $response->data = $e->getMessage();
         }
 
         $response = json_encode($response);

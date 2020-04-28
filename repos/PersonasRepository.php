@@ -4,7 +4,7 @@ class PersonasRepository
 {
     public static function save($filename, $data)
     {
-        $array = array();
+        $list = array();
 
         if (file_exists($filename)) {
 
@@ -25,35 +25,36 @@ class PersonasRepository
 
     public static function readAll($filename) {
 
-        try {
-
-            $file = fopen($filename, 'r');
-            $stream = fread($file, filesize($filename));
-            $list = unserialize($stream);
-            fclose($file);
-
-        } catch (\Throwable $th) {
-
-            echo $th->getMessage();
+        if(!file_exists($filename))
+        {
+            throw new Exception('File not found');
         }
+
+        $file = fopen($filename, 'r');
+        $stream = fread($file, filesize($filename));
+        $list = unserialize($stream);
+        fclose($file);
 
         return $list ?? false;
     }
 
     public static function fetchByUserType($filename, $userType) {
 
-        try {
-
-            $file = fopen($filename, 'r');
-            $stream = fread($file, filesize($filename));
-            $list = unserialize($stream);
-            fclose($file);
-            $resultSet = array();
-
-        } catch (\Throwable $th) {
-
-            echo $th->getMessage();
+        if(!file_exists($filename))
+        {
+            throw new Exception('File not found');
         }
+
+        if($userType == null || $userType == '')
+        {
+            throw new Exception('User Type is null or empty');
+        }
+
+        $file = fopen($filename, 'r');
+        $stream = fread($file, filesize($filename));
+        $list = unserialize($stream);
+        fclose($file);
+        $resultSet = array();
 
         foreach ($list as $persona) {
 
@@ -62,22 +63,27 @@ class PersonasRepository
                 array_push($resultSet, $persona);
             }
         }
+
         return $resultSet ?? false;
     }
 
     public static function findByEmail($filename, $email)
     {
-        try {
 
-            $file = fopen($filename, 'r');
-            $stream = fread($file, filesize($filename));
-            $list = unserialize($stream);
-            fclose($file);
-
-        } catch (\Throwable $th) {
-
-            echo $th->getMessage();
+        if(!file_exists($filename))
+        {
+            throw new Exception('File not found');
         }
+
+        if($email == null || $email == '')
+        {
+            throw new Exception('Email is null or empty');
+        }
+
+        $file = fopen($filename, 'r');
+        $stream = fread($file, filesize($filename));
+        $list = unserialize($stream);
+        fclose($file);
 
         foreach ($list as $persona) {
 
