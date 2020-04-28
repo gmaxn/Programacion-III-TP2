@@ -23,17 +23,16 @@ Request Method: POST
 Response:
 
 ```python
-[
-    {
-        "name": "Argentina",
-        "region": "Americas",
-        "subregion": "South America",
-        "capital": "Buenos Aires",
-        "languages": [
-            "Spanish",
-            "Guaraní"
-        ],
-        "data": { ... [Extended Country data] }
+{
+    "status": "Succeed",
+    "data": {
+        "id": 1588099439,
+        "email": "pparker@gmail.com",
+        "password": "***",
+        "firstname": "Peter",
+        "lastname": "Parker",
+        "telephone": "123456",
+        "userType": "admin"
     }
-]
+}
 ```
