@@ -30,11 +30,11 @@ class Authentication {
 
             } else {
 
-                throw new Exception('Invalid password');
+                throw new Exception('email and password do not match');
             }
         }
 
-        throw new Exception('User not found');
+        throw new Exception('email not registered');
     }
 
     private static function generateToken($email, $firstname, $lastname, $userType, $iat, $exp) {
@@ -60,9 +60,10 @@ class Authentication {
         }
         catch (\Throwable $th) {
 
-            if($th->getMessage() == 'Malformed UTF-8 characters')
+            if($th->getMessage() == 'Malformed UTF-8 characters') {
 
-            throw new Exception('Invalid token');
+                throw new Exception('Invalid token');
+            }
         }
     }
 }
