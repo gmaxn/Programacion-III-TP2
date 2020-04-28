@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '\..\Entities\Persona.php';
+require_once __DIR__ . '\..\entities\Persona.php';
 require_once __DIR__ . '\..\helpers\Response.php';
 require_once __DIR__ . '\..\helpers\HttpHelper.php';
+require_once __DIR__ . '\..\helpers\Authentication.php';
 
 class PersonasController {
 
@@ -34,14 +35,23 @@ class PersonasController {
                 $personasDto->userType = $_POST['tipo'] ?? false;
 
                 echo $this->postPersonasCreate($personasDto);
-
             break;
         
             case 'POST/personas/login':
-                $nombre =   $_POST['nombre'] ?? false;
-                $apellido = $_POST['apellido'] ?? false;
-                $legajo =   $_POST['legajo'] ?? false;
-                echo $this->postPersonasCSV($nombre, $apellido, $legajo);
+
+                $loginDto = new stdClass();
+                $loginDto->email = $_POST['email'] ?? false;
+                $loginDto->password = $_POST['clave'] ?? false;
+
+                echo $this->postPersonasLogin($loginDto);
+            break;
+
+            case 'GET/personas/details':
+
+                $headers = getallheaders();
+                $jwt = $headers['Authorization'];
+
+                echo $this->getPersonasDetails($jwt);
             break;
         
             default:
@@ -49,7 +59,6 @@ class PersonasController {
             break;
         }
     }
-
 
     // POST/personas/signin
     function postPersonasCreate($personasDto) {
@@ -65,7 +74,7 @@ class PersonasController {
             $personasDto->userType
         );
         
-        $persona->save();
+        $persona->save('Serialized');
         $persona->password = "***";
 
         if($persona) {
@@ -74,6 +83,59 @@ class PersonasController {
             $response->data = $persona;
         }
         
+        $response = json_encode($response);
+
+        echo $response;
+    }
+
+    // POST/personas/login
+    function postPersonasLogin($loginDto) {
+
+        $response = new Response('faltan datos');
+
+        $result = Authentication::validateCredentials($loginDto->email, $loginDto->password);
+
+        if($result) {
+
+            $jwt = new stdClass();
+            $jwt->token = $result;
+            $response->status = 'Succeed';
+            $response->data = $jwt;
+        }
+
+        $response = json_encode($response);
+
+        echo $response;
+    }
+
+    // GET/personas/details
+    function getPersonasDetails($jwt) {
+
+        $response = new Response('faltan datos');
+        $userContext = Authentication::authorizedUser($jwt);
+
+        if(!isset($userContext->email))
+        {
+            $response->status = 'failure';
+            $response->data = $userContext->errorMessage;
+        }
+
+        if(isset($userContext->email))
+        {
+            $persona = Persona::findByEmail($userContext->email);
+
+            if($persona != null)
+            {
+                $response->status = 'Success';
+                $response->data = $persona; 
+            }
+            else
+            {
+                $response->status = 'Success';
+                $response->data = 'Persona not found'; 
+            }
+        }
+
         $response = json_encode($response);
 
         echo $response;

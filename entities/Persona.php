@@ -22,33 +22,23 @@ class Persona {
         $this->userType = $userType;
     }
 
+    public function save($saveType = 'Serialized')
+    {
+        $result = null;
 
-    public function save($saveType = 'Serialized') {
-
-        if($this->email && $this->password && $this->firstname && $this->lastname && $this->telephone && $this->userType) {
-
+        if ($this->email && $this->password && $this->firstname && $this->lastname && $this->telephone && $this->userType) {
+            
             $filename = __DIR__ . '\..\data\personas.txt';
-            return PersonasRepository::saveSerialized($filename, $this);
+            $result = PersonasRepository::save($filename, $this);
         }
-        
-        return false;
-    }
-    
-    ////////////////////
-    // HELPER METHODS //
-    ////////////////////
-    public function toJSON() {
 
-        return json_encode($this);
+        return $result;
     }
 
-    public function toCSV() {
-
-        return $this->nombre . ',' . $this->apellido . ',' . $this->legajo . ',' . $this->photo . PHP_EOL;
-    }
-
-    public function isDefaultPhoto() {
-
-        return ($this->file == '\..\Data\Photos\default.jpg') ? true : false;
-    }
+    public function findByEmail($email)
+    {
+        $filename = __DIR__ . '\..\data\personas.txt';
+        $result = PersonasRepository::findByEmail($filename, $email);
+        return $result;
+    }  
 }
