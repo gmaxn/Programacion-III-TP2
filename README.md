@@ -1,6 +1,6 @@
 # Programacion-III-TP2
 
-Crear una API rest con las siguientes rutas:
+#### Crear una API rest con las siguientes rutas:
 
 1- POST signin: recibe email, clave, nombre, apellido, telefono y tipo (user, admin) y lo guarda en un archivo.
 
@@ -12,7 +12,7 @@ Crear una API rest con las siguientes rutas:
 
 4- GET lista: Si el usuario es admin muestra todos los usuarios, si es user solo los del tipo user.
 
-## Usage
+## Usage - POST signin
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/signin
@@ -34,5 +34,85 @@ Response:
         "telephone": "123456",
         "userType": "admin"
     }
+}
+```
+
+## Usage - POST login
+
+```python
+Request Url: http://localhost/Programacion-III-TP2/index.php/personas/login
+Request Method: POST
+```
+<img src="/readme_images/readme_img2.png" style="display:block; margin:auto;"></img>
+
+Response:
+
+```python
+{
+    "status": "Succeed",
+    "data": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODgxMDIyMjIsImV4cCI6MTU4ODEwMjI4MiwiZW1haWwiOiJwcGFya2VyQGdtYWlsLmNvbSIsImZpcnN0bmFtZSI6IlBldGVyIiwibGFzdG5hbWUiOiJQYXJrZXIiLCJ1c2VyX3R5cGUiOiJ1c2VyIn0.7SGsqmul9TmltFkdyhEkA_p8gRjMK3y4c6t0ZoR1DwY"
+    }
+}
+```
+
+## Usage - GET detalle
+
+```python
+Request Url: http://localhost/Programacion-III-TP2/index.php/personas/details
+Request Method: GET
+```
+<img src="/readme_images/readme_img3.png" style="display:block; margin:auto;"></img>
+
+Response:
+
+```python
+{
+    "status": "succeed",
+    "data": {
+        "id": 1588096271,
+        "email": "pparker@gmail.com",
+        "password": "$2y$10$CA6epv35GfaEvmG.pjfVUe5zMl3O3EuBCgftNcqqIbKpr7ueMuftK",
+        "firstname": "Peter",
+        "lastname": "Parker",
+        "telephone": "1160989712",
+        "userType": "user"
+    }
+}
+```
+
+## Usage - GET lista
+
+```python
+Request Url: http://localhost/Programacion-III-TP2/index.php/personas/list
+Request Method: GET
+```
+<img src="/readme_images/readme_img4.png" style="display:block; margin:auto;"></img>
+
+Response:
+
+```python
+{
+    "status": "succeed",
+    "data": [
+        {
+            "id": 1588096271,
+            "email": "pparker@gmail.com",
+            "password": "$2y$10$CA6epv35GfaEvmG.pjfVUe5zMl3O3EuBCgftNcqqIbKpr7ueMuftK",
+            "firstname": "Peter",
+            "lastname": "Parker",
+            "telephone": "1160989712",
+            "userType": "user"
+        },
+        {
+            "id": 1588096295,
+            "email": "mjwatson@gmail.com",
+            "password": "$2y$10$sZF/IFD2GCL.1sOGP66RIuxbKSzqMjN7.FUpPROyLHfF/DMU1O6CG",
+            "firstname": "Mary Jane",
+            "lastname": "Watson",
+            "telephone": "1160989712",
+            "userType": "user"
+        }
+    ]
 }
 ```
