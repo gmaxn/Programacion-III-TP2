@@ -36,7 +36,6 @@ Response:
     }
 }
 ```
-Nota: la duracion del Token sera de 60 segundos antes de que este expire.
 
 ## Modo de uso - POST login
 
@@ -56,6 +55,7 @@ Response:
     }
 }
 ```
+Nota: la duracion del Token sera de 60 segundos antes de que este expire.
 
 ## Modo de uso - GET detalle
 
