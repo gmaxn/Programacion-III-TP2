@@ -12,14 +12,13 @@ Crear una API rest con las siguientes rutas:
 
 4- GET lista: Si el usuario es admin muestra todos los usuarios, si es user solo los del tipo user.
 
-## Modo de uso
+## Usage
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/signin
 Request Method: POST
 ```
-![](/readme_images/readme_img1.png)
-
+<img src="/readme_images/readme_img1.png" style="display:block; margin:auto;"></img>
 Response:
 
 ```python
