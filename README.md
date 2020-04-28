@@ -12,7 +12,7 @@
 
 4- GET lista: Si el usuario es admin muestra todos los usuarios, si es user solo los del tipo user.
 
-## Usage - POST signin
+## Modo de uso - POST signin
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/signin
@@ -36,8 +36,9 @@ Response:
     }
 }
 ```
+Nota: la duracion del Token sera de 60 segundos antes de que este expire.
 
-## Usage - POST login
+## Modo de uso - POST login
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/login
@@ -56,7 +57,7 @@ Response:
 }
 ```
 
-## Usage - GET detalle
+## Modo de uso - GET detalle
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/details
@@ -81,7 +82,7 @@ Response:
 }
 ```
 
-## Usage - GET lista
+## Modo de uso - GET lista
 
 ```python
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/list
