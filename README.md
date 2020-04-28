@@ -62,7 +62,7 @@ Response:
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/details
 Request Method: GET
 ```
-<img src="/readme_images/readme_img3.png" style="display:block; margin:auto;"></img>
+<img src="/readme_images/readme_img3.PNG" style="display:block; margin:auto;"></img>
 
 Response:
 
@@ -87,7 +87,7 @@ Response:
 Request Url: http://localhost/Programacion-III-TP2/index.php/personas/list
 Request Method: GET
 ```
-<img src="/readme_images/readme_img4.png" style="display:block; margin:auto;"></img>
+<img src="/readme_images/readme_img4.PNG" style="display:block; margin:auto;"></img>
 
 Response:
 
