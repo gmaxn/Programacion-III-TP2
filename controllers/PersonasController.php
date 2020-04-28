@@ -53,6 +53,14 @@ class PersonasController {
 
                 echo $this->getPersonasDetails($jwt);
             break;
+
+            case 'GET/personas/list':
+
+                $headers = getallheaders();
+                $jwt = $headers['Authorization'];
+
+                echo $this->getPersonasList($jwt);
+            break;
         
             default:
                 echo 'Metodo no esperado';
@@ -133,6 +141,34 @@ class PersonasController {
             {
                 $response->status = 'Success';
                 $response->data = 'Persona not found'; 
+            }
+        }
+
+        $response = json_encode($response);
+
+        echo $response;
+    }
+
+    // GET/personas/list
+    function getPersonasList($jwt) {
+
+        $response = new Response('faltan datos');
+        $userContext = Authentication::authorizedUser($jwt);
+
+        if(!isset($userContext->user_type))
+        {
+            $response->status = 'failure';
+            $response->data = $userContext->errorMessage;
+        }
+
+        if(isset($userContext->user_type))
+        {
+            $personas = Persona::getDetailsByUserType($userContext->user_type);
+                
+            if($personas != null)
+            {
+                $response->status = 'Success';
+                $response->data = $personas; 
             }
         }
 

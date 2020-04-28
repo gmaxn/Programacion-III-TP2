@@ -35,10 +35,29 @@ class Persona {
         return $result;
     }
 
-    public function findByEmail($email)
+    public static function findByEmail($email)
     {
         $filename = __DIR__ . '\..\data\personas.txt';
         $result = PersonasRepository::findByEmail($filename, $email);
         return $result;
+    }
+
+    public static function getDetailsByUserType($userType)
+    {
+        $filename = __DIR__ . '\..\data\personas.txt';
+
+        $list = array();
+        
+        if($userType == 'admin')
+        {
+            $list = PersonasRepository::readAll($filename);
+        }
+
+        if($userType == 'user')
+        {
+            $list = PersonasRepository::fetchByUserType($filename, $userType);
+        }
+
+        return $list;
     }  
 }
